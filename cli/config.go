@@ -36,6 +36,10 @@ type Context struct {
 type Verb struct {
 	Name string
 
+	Args struct {
+		Min *int `yaml:"min"`
+		Max *int `yaml:"max"`
+	} `yaml:"args"`
 	Category    string     `yaml:"category"`
 	Commands    [][]string `yaml:"commands"`
 	Description string     `yaml:"description"`

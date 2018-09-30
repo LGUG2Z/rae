@@ -17,19 +17,27 @@ contexts:
 
 verbs:
   recreate:
+    args:
+      min: 1
     commands:
     - ["rm", "--stop", "--force"]
     - ["up", "-d"]
     usage: "Forcibly stops and removes the specified containers, starts them again in detached mode"
   destroy:
+    args:
+      min: 1
     commands:
     - ["rm", "--stop", "--force"]
     usage: "Forcibly stops and removes the specified containers"
   start:
+    args:
+      min: 1
     commands:
     - ["up", "-d"]
     usage: "Starts the specified containers in detached mode"
   stop:
+    args:
+      min: 1
     commands:
     - ["stop"]
     usage: "Stops the specified containers if they are running, preserves the containers"
@@ -38,6 +46,8 @@ verbs:
     - ["ps"]
     usage: "Lists running containers with status information in this context"
   log:
+    args:
+      min: 1
     commands:
     - ["logs", "-ft"]
     usage: "Tails logs of the specified containers"

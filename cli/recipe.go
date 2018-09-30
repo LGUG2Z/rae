@@ -23,9 +23,8 @@ func GenerateRecipeVerbCommand(verb *Verb, c *Config, envVars []string) cli.Comm
 			fmt.Fprintf(ctx.App.Writer, strings.Join(completions, " "))
 		},
 		Action: func(ctx *cli.Context) error {
-			var err error
 			if ctx.NArg() < 1 || ctx.NArg() > 1 {
-				return fmt.Errorf("this command requires a single recipe object")
+				return fmt.Errorf("this verb requires a single recipe object")
 			}
 
 			recipe := c.Recipes[ctx.Args().First()]
@@ -34,7 +33,7 @@ func GenerateRecipeVerbCommand(verb *Verb, c *Config, envVars []string) cli.Comm
 				composeFile := fmt.Sprintf("%s.yaml", context)
 
 				for _, command := range verb.Commands {
-					if err = ExecuteDockerCommand(c.Home, envVars, []string{composeFile}, command, objects); err != nil {
+					if err := ExecuteDockerCommand(c.Home, envVars, []string{composeFile}, command, objects); err != nil {
 						return err
 					}
 				}

@@ -20,8 +20,19 @@ func GenerateVerbCommand(verb *Verb, c *Config, envVars []string) cli.Command {
 		Category:     verb.Category,
 		BashComplete: verbCompletions(c),
 		Action: func(ctx *cli.Context) error {
+			if verb.Args.Min != nil {
+				if ctx.NArg() < *verb.Args.Min {
+					cli.ShowCommandHelpAndExit(ctx, ctx.Command.Name, 0)
+				}
+			}
+
+			if verb.Args.Max != nil {
+				if ctx.NArg() > *verb.Args.Max {
+					cli.ShowCommandHelpAndExit(ctx, ctx.Command.Name, 0)
+				}
+			}
+
 			var composeFiles []string
-			var err error
 
 			context := strings.Split(ctx.Command.FullName(), " ")
 			if context[0] == "global" {
@@ -45,7 +56,7 @@ func GenerateVerbCommand(verb *Verb, c *Config, envVars []string) cli.Command {
 			}
 
 			for _, command := range verb.Commands {
-				if err = ExecuteDockerCommand(c.Home, envVars, composeFiles, command, ctx.Args()); err != nil {
+				if err := ExecuteDockerCommand(c.Home, envVars, composeFiles, command, ctx.Args()); err != nil {
 					return err
 				}
 			}
