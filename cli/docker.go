@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"os/signal"
+	"strings"
 )
 
 func ExecuteDockerCommand(home string, envVars, composeFiles []string, command []string, objects []string) error {
@@ -21,14 +22,18 @@ func ExecuteDockerCommand(home string, envVars, composeFiles []string, command [
 		cmd.Args = append(cmd.Args, composeFile)
 	}
 
+	var cleanedObjects []string
 	for _, object := range objects {
 		if object == "all" {
 			objects = []string{}
+			break
 		}
+
+		cleanedObjects = append(cleanedObjects, strings.Split(object, " ")...)
 	}
 
 	cmd.Args = append(cmd.Args, command...)
-	cmd.Args = append(cmd.Args, objects...)
+	cmd.Args = append(cmd.Args, cleanedObjects...)
 
 	var stdBuffer bytes.Buffer
 	mw := io.MultiWriter(os.Stdout, &stdBuffer)
