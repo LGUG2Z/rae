@@ -14,38 +14,11 @@ import (
 
 func GenerateVerbCommand(verb *Verb, c *Config, envVars []string) cli.Command {
 	return cli.Command{
-		Name:        verb.Name,
-		Description: verb.Description,
-		Usage:       verb.Usage,
-		Category:    verb.Category,
-		BashComplete: func(ctx *cli.Context) {
-			var completions []string
-			var err error
-
-			context := strings.Split(ctx.Command.FullName(), " ")
-			if context[0] == "global" {
-				var files []string
-				if context[0] == "global" {
-					for _, context := range c.Contexts {
-						if context.Name != "global" && context.Name != "recipe" {
-							files = append(files, path.Join(c.Home, fmt.Sprintf("%s.yaml", context.Name)))
-						}
-					}
-				}
-
-				for _, file := range files {
-					completions, err = appendCompletions(file, completions)
-					if err != nil {
-						panic(err)
-					}
-				}
-			} else {
-				file := path.Join(c.Home, fmt.Sprintf("%s.yaml", context[0]))
-				completions, err = appendCompletions(file, completions)
-			}
-
-			fmt.Fprintf(ctx.App.Writer, strings.Join(completions, " "))
-		},
+		Name:         verb.Name,
+		Description:  verb.Description,
+		Usage:        verb.Usage,
+		Category:     verb.Category,
+		BashComplete: verbCompletions(c),
 		Action: func(ctx *cli.Context) error {
 			var composeFiles []string
 			var err error
@@ -79,6 +52,37 @@ func GenerateVerbCommand(verb *Verb, c *Config, envVars []string) cli.Command {
 
 			return nil
 		},
+	}
+}
+
+func verbCompletions(c *Config) func(ctx *cli.Context) {
+	return func(ctx *cli.Context) {
+		var completions []string
+		var err error
+
+		context := strings.Split(ctx.Command.FullName(), " ")
+		if context[0] == "global" {
+			var files []string
+			if context[0] == "global" {
+				for _, context := range c.Contexts {
+					if context.Name != "global" && context.Name != "recipe" {
+						files = append(files, path.Join(c.Home, fmt.Sprintf("%s.yaml", context.Name)))
+					}
+				}
+			}
+
+			for _, file := range files {
+				completions, err = appendCompletions(file, completions)
+				if err != nil {
+					panic(err)
+				}
+			}
+		} else {
+			file := path.Join(c.Home, fmt.Sprintf("%s.yaml", context[0]))
+			completions, err = appendCompletions(file, completions)
+		}
+
+		fmt.Fprintf(ctx.App.Writer, strings.Join(completions, " "))
 	}
 }
 

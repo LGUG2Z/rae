@@ -1,7 +1,7 @@
 # ############################################################################## #
-# Makefile for Golang Project
-# Includes cross-compiling, installation, cleanup
-# Adapted from https://gist.github.com/cjbarker/5ce66fcca74a1928a155cfb3fea8fac4
+# Makefile for Golang Project                                                    #
+# Includes cross-compiling, installation, cleanup                                #
+# Adapted from https://gist.github.com/cjbarker/5ce66fcca74a1928a155cfb3fea8fac4 #
 # ############################################################################## #
 
 # Check for required command tools to build or stop immediately

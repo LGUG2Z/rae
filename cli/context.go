@@ -5,6 +5,8 @@ import (
 
 	"fmt"
 
+	"strings"
+
 	"github.com/urfave/cli"
 )
 
@@ -46,8 +48,19 @@ func GenerateContextCommand(context *Context, c *Config, envVars []string) cli.C
 	}
 
 	var flags []cli.Flag
-	for flag, _ := range context.EnvFlags {
-		flags = append(flags, cli.BoolFlag{Name: flag})
+	for flag, envMap := range context.EnvFlags {
+		var envMapUsage []string
+		for key, value := range envMap {
+			envMapUsage = append(envMapUsage, fmt.Sprintf("%s=%s", key, value))
+		}
+
+		flags = append(
+			flags,
+			cli.BoolFlag{
+				Name:  flag,
+				Usage: fmt.Sprintf("Sets %s", strings.Join(envMapUsage, ", ")),
+			},
+		)
 	}
 
 	return cli.Command{
