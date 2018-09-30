@@ -25,10 +25,11 @@ type Config struct {
 type Context struct {
 	Name string
 
-	Aliases     []string `yaml:"aliases"`
-	Category    string   `yaml:"category"`
-	Description string   `yaml:"description"`
-	Usage       string   `yaml:"usage"`
+	Aliases     []string          `yaml:"aliases"`
+	Category    string            `yaml:"category"`
+	Description string            `yaml:"description"`
+	Env         map[string]string `yaml:"env"`
+	Usage       string            `yaml:"usage"`
 }
 
 type Verb struct {

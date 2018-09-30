@@ -3,6 +3,8 @@ package cli
 import (
 	"sort"
 
+	"fmt"
+
 	"github.com/urfave/cli"
 )
 
@@ -11,6 +13,10 @@ func GenerateContextCommands(c *Config, envVars []string) []cli.Command {
 
 	for name, context := range c.Contexts {
 		context.Name = name
+		for key, value := range context.Env {
+			envVars = append(envVars, fmt.Sprintf("%s=%s", key, value))
+		}
+
 		contextCommands = append(contextCommands, GenerateContextCommand(context, c, envVars))
 	}
 
