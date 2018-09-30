@@ -13,10 +13,6 @@ func GenerateContextCommands(c *Config, envVars []string) []cli.Command {
 
 	for name, context := range c.Contexts {
 		context.Name = name
-		for key, value := range context.Env {
-			envVars = append(envVars, fmt.Sprintf("%s=%s", key, value))
-		}
-
 		contextCommands = append(contextCommands, GenerateContextCommand(context, c, envVars))
 	}
 
@@ -37,6 +33,10 @@ func GenerateContextCommand(context *Context, c *Config, envVars []string) cli.C
 			verbCommands = append(verbCommands, GenerateRecipeVerbCommand(verb, c, envVars))
 		}
 	} else {
+		for key, value := range context.Env {
+			envVars = append(envVars, fmt.Sprintf("%s=%s", key, value))
+		}
+
 		for name, verb := range c.Verbs {
 			verb.Name = name
 			verbCommands = append(verbCommands, GenerateVerbCommand(verb, c, envVars))
@@ -45,12 +45,18 @@ func GenerateContextCommand(context *Context, c *Config, envVars []string) cli.C
 		sort.Sort(cli.CommandsByName(verbCommands))
 	}
 
+	var flags []cli.Flag
+	for flag, _ := range context.EnvFlags {
+		flags = append(flags, cli.BoolFlag{Name: flag})
+	}
+
 	return cli.Command{
-		Name:        context.Name,
-		Description: context.Description,
-		Usage:       context.Usage,
 		Aliases:     context.Aliases,
 		Category:    context.Category,
+		Description: context.Description,
+		Flags:       flags,
+		Name:        context.Name,
 		Subcommands: verbCommands,
+		Usage:       context.Usage,
 	}
 }
