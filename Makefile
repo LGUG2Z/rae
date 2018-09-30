@@ -14,11 +14,11 @@ ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 BINARY=rae
 VERSION=0.0.1
 BUILD=`git rev-parse HEAD`
-PLATFORMS=darwin linux windows
-ARCHITECTURES=386 amd64
+PLATFORMS=darwin linux
+ARCHITECTURES=amd64
 
 # Setup linker flags option for build that interoperate with variable names in src code
-LDFLAGS=-ldflags "-X main.Version=${VERSION} -X main.Build=${BUILD}"
+LDFLAGS=-ldflags "-X github.com/LGUG2Z/rae/cli.Version=${VERSION} -X github.com/LGUG2Z/rae/cli.Build=${BUILD}"
 
 default: build
 
