@@ -24,7 +24,7 @@ func GenerateRecipeVerbCommand(verb *Verb, c *Config, envVars []string) cli.Comm
 		},
 		Action: func(ctx *cli.Context) error {
 			if ctx.NArg() < 1 || ctx.NArg() > 1 {
-				return fmt.Errorf("this verb requires a single recipe object")
+				cli.ShowCommandHelpAndExit(ctx, ctx.Command.Name, 0)
 			}
 
 			recipe := c.Recipes[ctx.Args().First()]
