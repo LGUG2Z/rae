@@ -1,0 +1,9 @@
+version: "3.6"
+services:
+  monolith:
+    image: tutum/hello-world
+  authservice:
+    image: tutum/hello-world
+  adminservice:
+    image: tutum/hello-world
+

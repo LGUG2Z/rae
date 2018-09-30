@@ -1,0 +1,68 @@
+contexts:
+  recipe: # must be added to use recipes
+    usage: "Manages containers across contexts from a recipe definition"
+    category: "Meta"
+  global: # optional
+    usage: "Manages all containers"
+    category: "Meta"
+  api:
+    usage: "Manages API containers"
+    category: "Backend"
+  app:
+    usage: "Manages application containers"
+    category: "Frontend"
+  infra:
+    usage: "Manages infrastructure containers"
+    category: "Infrastructure"
+
+verbs:
+  recreate:
+    commands:
+    - ["rm", "--stop", "--force"]
+    - ["up", "-d"]
+    usage: "Forcibly stops and removes the specified containers, starts them again in detached mode"
+  destroy:
+    commands:
+    - ["rm", "--stop", "--force"]
+    usage: "Forcibly stops and removes the specified containers"
+  start:
+    commands:
+    - ["up", "-d"]
+    usage: "Starts the specified containers in detached mode"
+  stop:
+    commands:
+    - ["stop"]
+    usage: "Stops the specified containers if they are running, preserves the containers"
+  list:
+    commands:
+    - ["ps"]
+    usage: "Lists running containers with status information in this context"
+  log:
+    commands:
+    - ["logs", "-ft"]
+    usage: "Tails logs of the specified containers"
+
+recipes:
+  backend:
+    usage: "Starts the infrastructure containers required for backend development"
+    instructions:
+      infra: ["postgres", "redis", "rabbitmq"]
+      api: ["monolith", "authservice", "adminservice"]
+  marketing:
+    usage: "Starts the infrastructure containers required for marketing site development"
+    instructions:
+      infra: ["traefik"]
+      app: ["marketing"]
+  admin:
+    usage: "Starts the infrastructure containers required for admin dashboard development"
+    instructions:
+      infra: ["postgres", "redis", "traefik"]
+      api: ["adminservice"]
+      app: ["admin"]
+
+recipe_verbs:
+  - start
+  - stop
+  - recreate
+  - destroy
+

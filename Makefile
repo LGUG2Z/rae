@@ -12,7 +12,7 @@ K := $(foreach exec,$(EXECUTABLES),\
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 BINARY=rae
-VERSION=0.0.1
+VERSION=`cat version`
 BUILD=`git rev-parse HEAD`
 PLATFORMS=darwin linux
 ARCHITECTURES=amd64

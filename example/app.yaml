@@ -1,0 +1,9 @@
+version: "3.6"
+services:
+  marketing:
+    image: nginx
+  app:
+    image: nginx
+  admin:
+    image: nginx
+

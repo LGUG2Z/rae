@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	if err := PreFlightChecks(); err != nil {
+	if err := preFlightChecks(); err != nil {
 		log.Fatal(err)
 	}
 
@@ -33,9 +33,14 @@ func main() {
 		log.Fatal(err)
 	}
 
-	envVars, err := CollectEnvVars(c)
-	if err != nil {
-		log.Fatal(err)
+	var envVars []string
+	var err error
+
+	if len(c.EnvFiles) > 0 {
+		envVars, err = collectEnvVars(c)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	if err := cli.App(c, envVars).Run(os.Args); err != nil {
@@ -43,7 +48,7 @@ func main() {
 	}
 }
 
-func PreFlightChecks() error {
+func preFlightChecks() error {
 	_, ok := os.LookupEnv("RAE_HOME")
 	if !ok {
 		return fmt.Errorf("RAE_HOME is not set")
@@ -60,7 +65,7 @@ func PreFlightChecks() error {
 	return nil
 }
 
-func CollectEnvVars(c *cli.Config) ([]string, error) {
+func collectEnvVars(c *cli.Config) ([]string, error) {
 	var envVars []string
 
 	for index, value := range c.EnvFiles {
