@@ -13,6 +13,7 @@ func GenerateRecipeVerbCommand(verb *Verb, c *Config, envVars []string) cli.Comm
 		Description: verb.Description,
 		Usage:       verb.Usage,
 		Category:    verb.Category,
+		HideHelp:    true,
 		BashComplete: func(ctx *cli.Context) {
 			var completions []string
 

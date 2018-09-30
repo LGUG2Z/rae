@@ -68,6 +68,7 @@ func GenerateContextCommand(context *Context, c *Config, envVars []string) cli.C
 		Category:    context.Category,
 		Description: context.Description,
 		Flags:       flags,
+		HideHelp:    true,
 		Name:        context.Name,
 		Subcommands: verbCommands,
 		Usage:       context.Usage,

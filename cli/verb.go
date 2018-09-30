@@ -18,6 +18,7 @@ func GenerateVerbCommand(verb *Verb, c *Config, envVars []string) cli.Command {
 		Description:  verb.Description,
 		Usage:        verb.Usage,
 		Category:     verb.Category,
+		HideHelp:     true,
 		BashComplete: verbCompletions(c),
 		Action: func(ctx *cli.Context) error {
 			if verb.Args.Min != nil {
