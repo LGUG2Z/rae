@@ -19,18 +19,19 @@ func App(c *Config, envVars []string) *cli.App {
 	}
 
 	app := cli.NewApp()
-
 	app.Name = "rae"
-	app.Version = Version
 	app.Usage = "A docker-compose development environment orchestrator"
-	app.EnableBashCompletion = true
+	app.UsageText = "rae [global options] context [context options] verb [verb options] [objects...]"
+
+	app.Version = Version
 	app.Compiled = time.Now()
 	app.Authors = []cli.Author{{
 		Name:  "J. Iqbal",
 		Email: "jade@beamery.com",
 	}}
 
-	app.UsageText = "rae [global options] context [context options] verb [verb options] [objects...]"
+	app.EnableBashCompletion = true
+	app.HideHelp = true
 
 	app.Commands = append(app.Commands, GenerateContextCommands(c, envVars)...)
 	sort.Sort(cli.CommandsByName(app.Commands))
