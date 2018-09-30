@@ -4,8 +4,9 @@ import (
 	"sort"
 	"time"
 
-	"github.com/urfave/cli"
 	"fmt"
+
+	"github.com/urfave/cli"
 )
 
 var (

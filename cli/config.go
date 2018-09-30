@@ -12,17 +12,18 @@ import (
 )
 
 type Config struct {
-	Home     string
+	Home string
 
-	Contexts map[string]*Context `yaml:"contexts"`
-	Env      map[string]string   `yaml:"env"`
-	EnvFiles []string            `yaml:"env_files"`
-	Recipes  map[string]*Recipe  `yaml:"recipes"`
-	Verbs    map[string]*Verb    `yaml:"verbs"`
+	Contexts    map[string]*Context `yaml:"contexts"`
+	Env         map[string]string   `yaml:"env"`
+	EnvFiles    []string            `yaml:"env_files"`
+	RecipeVerbs []string            `yaml:"recipe_verbs"`
+	Recipes     map[string]*Recipe  `yaml:"recipes"`
+	Verbs       map[string]*Verb    `yaml:"verbs"`
 }
 
 type Context struct {
-	Name        string
+	Name string
 
 	Aliases     []string `yaml:"aliases"`
 	Category    string   `yaml:"category"`
@@ -31,7 +32,7 @@ type Context struct {
 }
 
 type Verb struct {
-	Name        string
+	Name string
 
 	Category    string     `yaml:"category"`
 	Commands    [][]string `yaml:"commands"`
@@ -40,7 +41,7 @@ type Verb struct {
 }
 
 type Recipe struct {
-	Name         string
+	Name string
 
 	Aliases      []string            `yaml:"aliases"`
 	Category     string              `yaml:"category"`
