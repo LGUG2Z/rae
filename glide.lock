@@ -1,0 +1,12 @@
+hash: dd88c07d83729d8a932a39869adc0ab2fb938310d33a620c34eff1e412817f92
+updated: 2018-09-30T22:07:50.245282+01:00
+imports:
+- name: github.com/imdario/mergo
+  version: 9f23e2d6bd2a77f959b2bf6acdbefd708a83a4a4
+- name: github.com/joho/godotenv
+  version: 23d116af351c84513e1946b527c88823e476be13
+- name: github.com/urfave/cli
+  version: cfb38830724cc34fedffe9a2a29fb54fa9169cd1
+- name: gopkg.in/yaml.v2
+  version: 5420a8b6744d3b0345ab293f6fcba19c978f1183
+testImports: []

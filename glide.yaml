@@ -1,0 +1,10 @@
+package: github.com/LGUG2Z/rae
+import:
+- package: github.com/imdario/mergo
+  version: v0.3.6
+- package: github.com/joho/godotenv
+  version: v1.3.0
+- package: github.com/urfave/cli
+  version: v1.20.0
+- package: gopkg.in/yaml.v2
+  version: v2.2.1
