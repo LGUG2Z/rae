@@ -8,9 +8,23 @@ import (
 
 	"io/ioutil"
 
+	"sort"
+
 	"github.com/urfave/cli"
 	"gopkg.in/yaml.v2"
 )
+
+func GenerateVerbCommands(c *Config, envVars []*string) []cli.Command {
+	var verbCommands []cli.Command
+	for name, verb := range c.Verbs {
+		verb.Name = name
+		verbCommands = append(verbCommands, GenerateVerbCommand(verb, c, envVars))
+	}
+
+	sort.Sort(cli.CommandsByName(verbCommands))
+
+	return verbCommands
+}
 
 func GenerateVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Command {
 	return cli.Command{
@@ -63,11 +77,6 @@ func GenerateVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Command {
 			}
 
 			for _, command := range verb.Commands {
-				fmt.Println()
-				for _, envVar := range envVars {
-					fmt.Println(*envVar)
-				}
-
 				if err := ExecuteDockerCommand(c.Home, envVars, composeFiles, command, ctx.Args()); err != nil {
 					return err
 				}

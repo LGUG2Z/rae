@@ -1,8 +1,6 @@
 package cli
 
 import (
-	"sort"
-
 	"fmt"
 
 	"strings"
@@ -24,24 +22,11 @@ func GenerateContextCommands(c *Config, envVars []*string) []cli.Command {
 func GenerateContextCommand(context *Context, c *Config, envVars []*string) cli.Command {
 	var verbCommands []cli.Command
 
-	if context.Name == "recipe" {
-		var validRecipeVerbs []*Verb
-		for _, recipeVerb := range c.RecipeVerbs {
-			c.Verbs[recipeVerb].Name = recipeVerb
-			validRecipeVerbs = append(validRecipeVerbs, c.Verbs[recipeVerb])
-		}
-
-		for _, verb := range validRecipeVerbs {
-			verbCommands = append(verbCommands, GenerateRecipeVerbCommand(verb, c, envVars))
-		}
-	} else {
-
-		for name, verb := range c.Verbs {
-			verb.Name = name
-			verbCommands = append(verbCommands, GenerateVerbCommand(verb, c, envVars))
-		}
-
-		sort.Sort(cli.CommandsByName(verbCommands))
+	switch context.Name {
+	case "recipe":
+		verbCommands = GenerateRecipeVerbCommands(c, envVars)
+	default:
+		verbCommands = GenerateVerbCommands(c, envVars)
 	}
 
 	var flags []cli.Flag

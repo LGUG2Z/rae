@@ -11,12 +11,12 @@ import (
 
 var (
 	Version string
-	Build   string
+	Commit  string
 )
 
 func App(c *Config, envVars []*string) *cli.App {
 	cli.VersionPrinter = func(c *cli.Context) {
-		fmt.Printf("rae version %s (build %s)\n", c.App.Version, Build)
+		fmt.Printf("rae version %s (commit %s)\n", c.App.Version, Commit)
 	}
 
 	app := cli.NewApp()
