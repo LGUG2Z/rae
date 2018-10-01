@@ -50,7 +50,7 @@ func GenerateContextCommand(context *Context, c *Config, envVars []string) cli.C
 	var flags []cli.Flag
 	for flag, envMap := range context.EnvFlags {
 		var envMapUsage []string
-		for key, value := range envMap {
+		for key, value := range *envMap {
 			envMapUsage = append(envMapUsage, fmt.Sprintf("%s=%s", key, *value))
 		}
 

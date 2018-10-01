@@ -46,7 +46,7 @@ func GenerateVerbCommand(verb *Verb, c *Config, envVars []string) cli.Command {
 				if c.Contexts[context[0]].EnvFlags != nil {
 					for flag, envMap := range c.Contexts[context[0]].EnvFlags {
 						if ctx.GlobalBool(flag) {
-							for key, value := range envMap {
+							for key, value := range *envMap {
 								envVars = append(envVars, fmt.Sprintf("%s=%s", key, *value))
 							}
 						}
