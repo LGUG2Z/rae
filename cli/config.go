@@ -49,11 +49,11 @@ type Verb struct {
 type Recipe struct {
 	Name string
 
-	Aliases      []string            `yaml:"aliases"`
-	Category     string              `yaml:"category"`
-	Description  string              `yaml:"description"`
-	Instructions map[string][]string `yaml:"instructions"`
-	Usage        string              `yaml:"usage"`
+	Aliases      []string              `yaml:"aliases"`
+	Category     string                `yaml:"category"`
+	Description  string                `yaml:"description"`
+	Instructions []map[string][]string `yaml:"instructions"`
+	Usage        string                `yaml:"usage"`
 }
 
 func (c *Config) Load(home string) error {

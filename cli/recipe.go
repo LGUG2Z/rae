@@ -45,12 +45,14 @@ func GenerateRecipeVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Com
 
 			recipe := c.Recipes[ctx.Args().First()]
 
-			for context, objects := range recipe.Instructions {
-				composeFile := fmt.Sprintf("%s.yaml", context)
+			for _, instruction := range recipe.Instructions {
+				for context, objects := range instruction {
+					composeFile := fmt.Sprintf("%s.yaml", context)
 
-				for _, command := range verb.Commands {
-					if err := ExecuteDockerCommand(c.Home, envVars, []string{composeFile}, command, objects); err != nil {
-						return err
+					for _, command := range verb.Commands {
+						if err := ExecuteDockerCommand(c.Home, envVars, []string{composeFile}, command, objects); err != nil {
+							return err
+						}
 					}
 				}
 			}

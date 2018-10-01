@@ -56,19 +56,19 @@ recipes:
   backend:
     usage: "Starts the infrastructure containers required for backend development"
     instructions:
-      infra: ["postgres", "redis", "rabbitmq"]
-      api: ["monolith", "authservice", "adminservice"]
+    - infra: ["postgres", "redis", "rabbitmq"]
+    - api: ["monolith", "authservice", "adminservice"]
   marketing:
     usage: "Starts the infrastructure containers required for marketing site development"
     instructions:
-      infra: ["traefik"]
-      app: ["marketing"]
+    - infra: ["traefik"]
+    - app: ["marketing"]
   admin:
     usage: "Starts the infrastructure containers required for admin dashboard development"
     instructions:
-      infra: ["postgres", "redis", "traefik"]
-      api: ["adminservice"]
-      app: ["admin"]
+    - infra: ["postgres", "redis", "traefik"]
+    - api: ["adminservice"]
+    - app: ["admin"]
 
 recipe_verbs:
   - start
