@@ -9,12 +9,12 @@ import (
 	"strings"
 )
 
-func ExecuteDockerCommand(home string, envVars, composeFiles []string, command []string, objects []string) error {
+func ExecuteDockerCommand(home string, envVars []*string, composeFiles []string, command []string, objects []string) error {
 	cmd := exec.Command("docker-compose")
 	cmd.Dir = home
 
 	for _, envVar := range envVars {
-		cmd.Env = append(cmd.Env, envVar)
+		cmd.Env = append(cmd.Env, *envVar)
 	}
 
 	for _, composeFile := range composeFiles {

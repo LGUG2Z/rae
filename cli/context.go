@@ -10,7 +10,7 @@ import (
 	"github.com/urfave/cli"
 )
 
-func GenerateContextCommands(c *Config, envVars []string) []cli.Command {
+func GenerateContextCommands(c *Config, envVars []*string) []cli.Command {
 	var contextCommands []cli.Command
 
 	for name, context := range c.Contexts {
@@ -21,7 +21,7 @@ func GenerateContextCommands(c *Config, envVars []string) []cli.Command {
 	return contextCommands
 }
 
-func GenerateContextCommand(context *Context, c *Config, envVars []string) cli.Command {
+func GenerateContextCommand(context *Context, c *Config, envVars []*string) cli.Command {
 	var verbCommands []cli.Command
 
 	if context.Name == "recipe" {
@@ -35,9 +35,6 @@ func GenerateContextCommand(context *Context, c *Config, envVars []string) cli.C
 			verbCommands = append(verbCommands, GenerateRecipeVerbCommand(verb, c, envVars))
 		}
 	} else {
-		for key, value := range context.Env {
-			envVars = append(envVars, fmt.Sprintf("%s=%s", key, *value))
-		}
 
 		for name, verb := range c.Verbs {
 			verb.Name = name

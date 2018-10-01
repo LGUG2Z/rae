@@ -14,7 +14,7 @@ var (
 	Build   string
 )
 
-func App(c *Config, envVars []string) *cli.App {
+func App(c *Config, envVars []*string) *cli.App {
 	cli.VersionPrinter = func(c *cli.Context) {
 		fmt.Printf("rae version %s (build %s)\n", c.App.Version, Build)
 	}

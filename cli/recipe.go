@@ -7,7 +7,7 @@ import (
 	"github.com/urfave/cli"
 )
 
-func GenerateRecipeVerbCommand(verb *Verb, c *Config, envVars []string) cli.Command {
+func GenerateRecipeVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Command {
 	return cli.Command{
 		Name:        verb.Name,
 		Description: verb.Description,

@@ -33,7 +33,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	var envVars []string
+	var envVars []*string
 	var err error
 
 	if len(c.EnvFiles) > 0 {
@@ -65,8 +65,8 @@ func preFlightChecks() error {
 	return nil
 }
 
-func collectEnvVars(c *cli.Config) ([]string, error) {
-	var envVars []string
+func collectEnvVars(c *cli.Config) ([]*string, error) {
+	var envVars []*string
 
 	for index, value := range c.EnvFiles {
 		c.EnvFiles[index] = path.Join(c.Home, value)
@@ -78,11 +78,13 @@ func collectEnvVars(c *cli.Config) ([]string, error) {
 	}
 
 	for key, value := range envMap {
-		envVars = append(envVars, fmt.Sprintf("%s=%s", key, value))
+		envVar := fmt.Sprintf("%s=%s", key, value)
+		envVars = append(envVars, &envVar)
 	}
 
 	for key, value := range c.Env {
-		envVars = append(envVars, fmt.Sprintf("%s=%s", key, *value))
+		envVar := fmt.Sprintf("%s=%s", key, *value)
+		envVars = append(envVars, &envVar)
 	}
 
 	return envVars, nil

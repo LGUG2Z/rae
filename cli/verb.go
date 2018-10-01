@@ -12,7 +12,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-func GenerateVerbCommand(verb *Verb, c *Config, envVars []string) cli.Command {
+func GenerateVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Command {
 	return cli.Command{
 		Name:         verb.Name,
 		Description:  verb.Description,
@@ -43,11 +43,17 @@ func GenerateVerbCommand(verb *Verb, c *Config, envVars []string) cli.Command {
 					}
 				}
 			} else {
+				for key, value := range c.Contexts[context[0]].Env {
+					envVar := fmt.Sprintf("%s=%s", key, *value)
+					envVars = append(envVars, &envVar)
+				}
+
 				if c.Contexts[context[0]].EnvFlags != nil {
 					for flag, envMap := range c.Contexts[context[0]].EnvFlags {
 						if ctx.GlobalBool(flag) {
 							for key, value := range *envMap {
-								envVars = append(envVars, fmt.Sprintf("%s=%s", key, *value))
+								envVar := fmt.Sprintf("%s=%s", key, *value)
+								envVars = append(envVars, &envVar)
 							}
 						}
 					}
@@ -57,6 +63,11 @@ func GenerateVerbCommand(verb *Verb, c *Config, envVars []string) cli.Command {
 			}
 
 			for _, command := range verb.Commands {
+				fmt.Println()
+				for _, envVar := range envVars {
+					fmt.Println(*envVar)
+				}
+
 				if err := ExecuteDockerCommand(c.Home, envVars, composeFiles, command, ctx.Args()); err != nil {
 					return err
 				}
