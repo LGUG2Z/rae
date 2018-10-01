@@ -82,7 +82,7 @@ func collectEnvVars(c *cli.Config) ([]string, error) {
 	}
 
 	for key, value := range c.Env {
-		envVars = append(envVars, fmt.Sprintf("%s=%s", key, value))
+		envVars = append(envVars, fmt.Sprintf("%s=%s", key, *value))
 	}
 
 	return envVars, nil

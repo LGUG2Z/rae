@@ -15,7 +15,7 @@ type Config struct {
 	Home string
 
 	Contexts    map[string]*Context `yaml:"contexts"`
-	Env         map[string]string   `yaml:"env"`
+	Env         map[string]*string  `yaml:"env"`
 	EnvFiles    []string            `yaml:"env_files"`
 	RecipeVerbs []string            `yaml:"recipe_verbs"`
 	Recipes     map[string]*Recipe  `yaml:"recipes"`
