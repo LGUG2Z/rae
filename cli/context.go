@@ -36,7 +36,7 @@ func GenerateContextCommand(context *Context, c *Config, envVars []string) cli.C
 		}
 	} else {
 		for key, value := range context.Env {
-			envVars = append(envVars, fmt.Sprintf("%s=%s", key, value))
+			envVars = append(envVars, fmt.Sprintf("%s=%s", key, *value))
 		}
 
 		for name, verb := range c.Verbs {
@@ -51,7 +51,7 @@ func GenerateContextCommand(context *Context, c *Config, envVars []string) cli.C
 	for flag, envMap := range context.EnvFlags {
 		var envMapUsage []string
 		for key, value := range envMap {
-			envMapUsage = append(envMapUsage, fmt.Sprintf("%s=%s", key, value))
+			envMapUsage = append(envMapUsage, fmt.Sprintf("%s=%s", key, *value))
 		}
 
 		flags = append(
