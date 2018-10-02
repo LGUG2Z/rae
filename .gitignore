@@ -1,3 +1,5 @@
 .idea
 *-darwin-*
 *-linux-*
+dist
+vendor
