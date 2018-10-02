@@ -1,0 +1,22 @@
+# This is an example goreleaser.yaml file with some sane defaults.
+# Make sure to check the documentation at http://goreleaser.com
+project_name: rae
+builds:
+- env:
+  - CGO_ENABLED=0
+  binary: rae
+  ldflags:
+   - -X github.com/LGUG2Z/rae/cli.Version={{.Env.VERSION}} -X github.com/LGUG2Z/rae/cli.Commit={{.Env.COMMIT}}
+archive:
+  files:
+    - bash_autocomplete
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}-snapshot"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'
