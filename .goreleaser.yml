@@ -6,7 +6,9 @@ builds:
   - CGO_ENABLED=0
   binary: rae
   ldflags:
-   - -X github.com/LGUG2Z/rae/cli.Version={{.Env.VERSION}} -X github.com/LGUG2Z/rae/cli.Commit={{.Env.COMMIT}}
+   - -X github.com/LGUG2Z/rae/cli.Version={{.VERSION}} -X github.com/LGUG2Z/rae/cli.Commit={{.COMMIT}}
+  goarch:
+    - amd64
 archive:
   files:
     - bash_autocomplete
