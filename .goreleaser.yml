@@ -32,9 +32,6 @@ archive:
 checksum:
   name_template: 'checksums.txt'
 
-sign:
-   artifacts: checksum
-
 snapshot:
   name_template: "{{ .Tag }}-snapshot"
 
