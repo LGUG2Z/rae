@@ -37,5 +37,6 @@ install:
 # Remove only what we've created
 clean:
 	find ${ROOT_DIR} -name '${BINARY}[-?][a-zA-Z0-9]*[-?][a-zA-Z0-9]*' -delete
+	rm -rf dist
 
 .PHONY: check clean install build_all all
