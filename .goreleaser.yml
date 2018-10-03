@@ -9,6 +9,11 @@ builds:
   goarch:
     - amd64
 
+archive:
+  files:
+    - bash_autocomplete
+    - zsh_autocomplete
+
 brew:
   name: rae
   github:
@@ -23,11 +28,8 @@ brew:
     system "#{bin}/rae --version"
   install: |
     bin.install "rae"
-    bash_completion.install "bash_autocopmlete"
-
-archive:
-  files:
-    - bash_autocomplete
+    bash_completion.install "bash_autocomplete"
+    zsh_completion.install "zsh_autocomplete"
 
 checksum:
   name_template: 'checksums.txt'
