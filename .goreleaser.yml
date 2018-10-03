@@ -1,6 +1,5 @@
-# This is an example goreleaser.yaml file with some sane defaults.
-# Make sure to check the documentation at http://goreleaser.com
 project_name: rae
+
 builds:
 - env:
   - CGO_ENABLED=0
@@ -9,13 +8,36 @@ builds:
    - -X github.com/LGUG2Z/rae/cli.Version={{ .Version }} -X github.com/LGUG2Z/rae/cli.Commit={{ .Commit }}
   goarch:
     - amd64
+
+brew:
+  name: rae
+  github:
+    owner: LGUG2Z
+    name: homebrew-tap
+  folder: Formula
+  homepage: "https://github.com/LGUG2Z/rae"
+  description: "A docker-compose development environment orchestrator"
+  dependencies:
+  - docker
+  test: |
+    system "#{bin}/rae --version"
+  install: |
+    bin.install "rae"
+    bash_completion.install "bash_autocopmlete"
+
 archive:
   files:
     - bash_autocomplete
+
 checksum:
   name_template: 'checksums.txt'
+
+sign:
+   artifacts: checksum
+
 snapshot:
   name_template: "{{ .Tag }}-snapshot"
+
 changelog:
   sort: asc
   filters:
