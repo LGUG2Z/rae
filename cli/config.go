@@ -14,12 +14,26 @@ import (
 type Config struct {
 	Home string
 
-	Contexts    map[string]*Context `yaml:"contexts"`
-	Env         map[string]*string  `yaml:"env"`
-	EnvFiles    []string            `yaml:"env_files"`
-	RecipeVerbs []string            `yaml:"recipe_verbs"`
-	Recipes     map[string]*Recipe  `yaml:"recipes"`
-	Verbs       map[string]*Verb    `yaml:"verbs"`
+	Contexts   map[string]*Context `yaml:"contexts"`
+	Env        map[string]*string  `yaml:"env"`
+	EnvFiles   []string            `yaml:"env_files"`
+	GroupVerbs []string            `yaml:"group_verbs"`
+	Groups     map[string]*Group   `yaml:"groups"`
+	Verbs      map[string]*Verb    `yaml:"verbs"`
+	Recipes    map[string]*Recipe  `yaml:"recipes"`
+}
+
+type Instructions struct {
+	Group       string   `yaml:"group"`
+	Verb        string   `yaml:"verb"`
+	Healthcheck []string `yaml:"healthcheck"`
+}
+
+type Recipe struct {
+	Name string
+
+	Usage        string          `yaml:"usage"`
+	Instructions []*Instructions `yaml:"instructions"`
 }
 
 type Context struct {
@@ -46,14 +60,14 @@ type Verb struct {
 	Usage       string     `yaml:"usage"`
 }
 
-type Recipe struct {
+type Group struct {
 	Name string
 
-	Aliases      []string              `yaml:"aliases"`
-	Category     string                `yaml:"category"`
-	Description  string                `yaml:"description"`
-	Instructions []map[string][]string `yaml:"instructions"`
-	Usage        string                `yaml:"usage"`
+	Aliases     []string              `yaml:"aliases"`
+	Category    string                `yaml:"category"`
+	Description string                `yaml:"description"`
+	Members     []map[string][]string `yaml:"members"`
+	Usage       string                `yaml:"usage"`
 }
 
 func (c *Config) Load(home string) error {

@@ -10,7 +10,7 @@ import (
 func GenerateRecipeVerbCommands(c *Config, envVars []*string) []cli.Command {
 	var validRecipeVerbs []*Verb
 	var verbCommands []cli.Command
-	for _, recipeVerb := range c.RecipeVerbs {
+	for _, recipeVerb := range c.GroupVerbs {
 		c.Verbs[recipeVerb].Name = recipeVerb
 		validRecipeVerbs = append(validRecipeVerbs, c.Verbs[recipeVerb])
 	}
@@ -32,7 +32,7 @@ func GenerateRecipeVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Com
 		BashComplete: func(ctx *cli.Context) {
 			var completions []string
 
-			for name, _ := range c.Recipes {
+			for name, _ := range c.Groups {
 				completions = append(completions, name)
 			}
 
@@ -43,9 +43,9 @@ func GenerateRecipeVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Com
 				cli.ShowCommandHelpAndExit(ctx, ctx.Command.Name, 0)
 			}
 
-			recipe := c.Recipes[ctx.Args().First()]
+			recipe := c.Groups[ctx.Args().First()]
 
-			for _, instruction := range recipe.Instructions {
+			for _, instruction := range recipe.Members {
 				for context, objects := range instruction {
 					composeFile := fmt.Sprintf("%s.yaml", context)
 
