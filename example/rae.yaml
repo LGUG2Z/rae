@@ -1,11 +1,18 @@
+env:
+  SUPER_SECRET_PASSWORD: sikureto
+  COMPOSE_IGNORE_ORHPANS: true
+
 contexts:
+  group: # must be added to use groups
+    usage: "Manages containers across contexts from a recipe definition"
+    category: "Meta"
   recipe: # must be added to use recipes
     usage: "Manages containers across contexts from a recipe definition"
     category: "Meta"
   global: # optional
     usage: "Manages all containers"
     category: "Meta"
-  api:
+  api: # user-defined
     usage: "Manages API containers"
     category: "Backend"
   app:
@@ -17,27 +24,23 @@ contexts:
 
 verbs:
   recreate:
-    args:
-      min: 1
+    args: { min: 1 }
     commands:
     - ["rm", "--stop", "--force"]
     - ["up", "-d"]
     usage: "Forcibly stops and removes the specified containers, starts them again in detached mode"
   destroy:
-    args:
-      min: 1
+    args: { min: 1 }
     commands:
     - ["rm", "--stop", "--force"]
     usage: "Forcibly stops and removes the specified containers"
   start:
-    args:
-      min: 1
+    args: { min: 1 }
     commands:
     - ["up", "-d"]
     usage: "Starts the specified containers in detached mode"
   stop:
-    args:
-      min: 1
+    args: { min: 1 }
     commands:
     - ["stop"]
     usage: "Stops the specified containers if they are running, preserves the containers"
@@ -46,33 +49,45 @@ verbs:
     - ["ps"]
     usage: "Lists running containers with status information in this context"
   log:
-    args:
-      min: 1
+    args: { min: 1 }
     commands:
     - ["logs", "-ft"]
     usage: "Tails logs of the specified containers"
 
-recipes:
-  backend:
-    usage: "Starts the infrastructure containers required for backend development"
-    instructions:
+groups:
+  infra:
+    usage: "Starts the containers required for infrastructure"
+    members:
     - infra: ["postgres", "redis", "rabbitmq"]
+  backend:
+    usage: "Starts the containers required for backend development"
+    members:
     - api: ["monolith", "authservice", "adminservice"]
   marketing:
-    usage: "Starts the infrastructure containers required for marketing site development"
-    instructions:
+    usage: "Starts the containers required for marketing site development"
+    members:
     - infra: ["traefik"]
     - app: ["marketing"]
   admin:
-    usage: "Starts the infrastructure containers required for admin dashboard development"
-    instructions:
+    usage: "Starts the containers required for admin dashboard development"
+    members:
     - infra: ["postgres", "redis", "traefik"]
     - api: ["adminservice"]
     - app: ["admin"]
 
-recipe_verbs:
+group_verbs:
   - start
   - stop
   - recreate
   - destroy
 
+recipes:
+  backend:
+    usage: "Starts the backend development environment"
+    instructions:
+    - group: infra
+      verb: start
+      healthcheck: ["rabbitmq", "redis"]
+    - group: backend
+      verb: start
+      healthcheck: ["monolith"]

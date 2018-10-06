@@ -2,6 +2,11 @@ version: "3.6"
 services:
   monolith:
     image: tutum/hello-world
+    healthcheck:
+      test: wget -qs http://127.0.0.1:80 || exit 1
+      interval: 5s
+      timeout: 10s
+      retries: 5
   authservice:
     image: tutum/hello-world
   adminservice:

@@ -5,6 +5,16 @@ services:
   traefik:
     image: traefik
   redis:
-    image: traefik
+    image: redis:4
+    healthcheck:
+      test: redis-cli ping
+      interval: 5s
+      timeout: 10s
+      retries: 5
   rabbitmq:
     image: rabbitmq
+    healthcheck:
+      test: rabbitmqctl status
+      interval: 5s
+      timeout: 10s
+      retries: 5
