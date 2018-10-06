@@ -23,20 +23,6 @@ type Config struct {
 	Recipes    map[string]*Recipe  `yaml:"recipes"`
 }
 
-type Instructions struct {
-	Group       string   `yaml:"group"`
-	Verb        string   `yaml:"verb"`
-	Healthcheck []string `yaml:"healthcheck"`
-}
-
-type Recipe struct {
-	Name string
-
-	Usage        string          `yaml:"usage"`
-	Description  string          `yaml:"description"`
-	Instructions []*Instructions `yaml:"instructions"`
-}
-
 type Context struct {
 	Name string
 
@@ -46,6 +32,16 @@ type Context struct {
 	Env         map[string]*string             `yaml:"env"`
 	EnvFlags    map[string]*map[string]*string `yaml:"env_flags"`
 	Usage       string                         `yaml:"usage"`
+}
+
+type Group struct {
+	Name string
+
+	Aliases     []string              `yaml:"aliases"`
+	Category    string                `yaml:"category"`
+	Description string                `yaml:"description"`
+	Members     []map[string][]string `yaml:"members"`
+	Usage       string                `yaml:"usage"`
 }
 
 type Verb struct {
@@ -61,14 +57,18 @@ type Verb struct {
 	Usage       string     `yaml:"usage"`
 }
 
-type Group struct {
+type Recipe struct {
 	Name string
 
-	Aliases     []string              `yaml:"aliases"`
-	Category    string                `yaml:"category"`
-	Description string                `yaml:"description"`
-	Members     []map[string][]string `yaml:"members"`
-	Usage       string                `yaml:"usage"`
+	Usage        string          `yaml:"usage"`
+	Description  string          `yaml:"description"`
+	Instructions []*Instructions `yaml:"instructions"`
+}
+
+type Instructions struct {
+	Group       string   `yaml:"group"`
+	Verb        string   `yaml:"verb"`
+	Healthcheck []string `yaml:"healthcheck"`
 }
 
 func (c *Config) Load(home string) error {

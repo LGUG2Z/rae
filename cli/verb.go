@@ -77,7 +77,7 @@ func GenerateVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Command {
 			}
 
 			for _, command := range verb.Commands {
-				if err := ExecuteDockerCommand(c.Home, envVars, composeFiles, command, ctx.Args()); err != nil {
+				if err := ExecuteComposeCommand(c.Home, envVars, composeFiles, command, ctx.Args()); err != nil {
 					return err
 				}
 			}

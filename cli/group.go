@@ -60,7 +60,7 @@ func GroupVerbCommandAction(ctx *cli.Context, c *Config, g string, verb *Verb, e
 			composeFile := fmt.Sprintf("%s.yaml", context)
 
 			for _, command := range verb.Commands {
-				if err := ExecuteDockerCommand(c.Home, envVars, []string{composeFile}, command, objects); err != nil {
+				if err := ExecuteComposeCommand(c.Home, envVars, []string{composeFile}, command, objects); err != nil {
 					return err
 				}
 			}
