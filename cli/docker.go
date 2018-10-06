@@ -69,8 +69,8 @@ func ExecuteComposeCommand(home string, envVars []*string, composeFiles []string
 	cmd := exec.Command("docker-compose")
 	cmd.Dir = home
 
-	path, _ := os.LookupEnv("PATH")
-	cmd.Env = append(cmd.Env, fmt.Sprintf("PATH=%s", path))
+	p, _ := os.LookupEnv("PATH")
+	cmd.Env = append(cmd.Env, fmt.Sprintf("PATH=%s", p))
 
 	for _, envVar := range envVars {
 		cmd.Env = append(cmd.Env, *envVar)

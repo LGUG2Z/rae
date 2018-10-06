@@ -10,6 +10,8 @@ import (
 
 	"sort"
 
+	"os"
+
 	"github.com/urfave/cli"
 	"gopkg.in/yaml.v2"
 )
@@ -54,6 +56,9 @@ func GenerateVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Command {
 				for _, context := range c.Contexts {
 					if context.Name != "global" && context.Name != "group" && context.Name != "recipe" {
 						composeFiles = append(composeFiles, fmt.Sprintf("%s.yaml", context.Name))
+						if _, err := os.Stat(path.Join(c.Home, fmt.Sprintf("%s.override.yaml", context.Name))); err == nil {
+							composeFiles = append(composeFiles, fmt.Sprintf("%s.override.yaml", context.Name))
+						}
 					}
 				}
 			} else {
@@ -74,6 +79,9 @@ func GenerateVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Command {
 				}
 
 				composeFiles = append(composeFiles, fmt.Sprintf("%s.yaml", context[0]))
+				if _, err := os.Stat(path.Join(c.Home, fmt.Sprintf("%s.override.yaml", context[0]))); err == nil {
+					composeFiles = append(composeFiles, fmt.Sprintf("%s.override.yaml", context[0]))
+				}
 			}
 
 			for _, command := range verb.Commands {
