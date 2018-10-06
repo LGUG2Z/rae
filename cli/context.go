@@ -24,7 +24,8 @@ func GenerateContextCommand(context *Context, c *Config, envVars []*string) cli.
 
 	switch context.Name {
 	case "group":
-		verbCommands = GenerateRecipeVerbCommands(c, envVars)
+		verbCommands = GenerateGroupVerbCommands(c, envVars)
+	case "recipe":
 	default:
 		verbCommands = GenerateVerbCommands(c, envVars)
 	}

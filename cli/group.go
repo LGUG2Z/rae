@@ -7,22 +7,22 @@ import (
 	"github.com/urfave/cli"
 )
 
-func GenerateRecipeVerbCommands(c *Config, envVars []*string) []cli.Command {
-	var validRecipeVerbs []*Verb
+func GenerateGroupVerbCommands(c *Config, envVars []*string) []cli.Command {
+	var validGroupVerbs []*Verb
 	var verbCommands []cli.Command
 	for _, groupVerb := range c.GroupVerbs {
 		c.Verbs[groupVerb].Name = groupVerb
-		validRecipeVerbs = append(validRecipeVerbs, c.Verbs[groupVerb])
+		validGroupVerbs = append(validGroupVerbs, c.Verbs[groupVerb])
 	}
 
-	for _, verb := range validRecipeVerbs {
-		verbCommands = append(verbCommands, GenerateRecipeVerbCommand(verb, c, envVars))
+	for _, verb := range validGroupVerbs {
+		verbCommands = append(verbCommands, GenerateGroupVerbCommand(verb, c, envVars))
 	}
 
 	return verbCommands
 }
 
-func GenerateRecipeVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Command {
+func GenerateGroupVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Command {
 	return cli.Command{
 		Name:        verb.Name,
 		Description: verb.Description,
