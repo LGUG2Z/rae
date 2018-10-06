@@ -37,6 +37,10 @@ install:
 fmt:
 	goimports -w cli main.go
 
+release:
+	gorelease --rm-dist
+
+
 # Remove only what we've created
 clean:
 	find ${ROOT_DIR} -name '${BINARY}[-?][a-zA-Z0-9]*[-?][a-zA-Z0-9]*' -delete
