@@ -8,3 +8,5 @@ import:
   version: v1.20.0
 - package: gopkg.in/yaml.v2
   version: v2.2.1
+- package: github.com/fatih/color
+  version: v1.7.0

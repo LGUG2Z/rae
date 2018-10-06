@@ -1,12 +1,22 @@
-hash: dd88c07d83729d8a932a39869adc0ab2fb938310d33a620c34eff1e412817f92
-updated: 2018-09-30T22:07:50.245282+01:00
+hash: 32d186227f68efccd5a761ce0975c3acb8b6f6cd3d2257464f218d3214913131
+updated: 2018-10-06T17:14:14.144909+01:00
 imports:
+- name: github.com/fatih/color
+  version: 5b77d2a35fb0ede96d138fc9a99f5c9b6aef11b4
 - name: github.com/imdario/mergo
   version: 9f23e2d6bd2a77f959b2bf6acdbefd708a83a4a4
 - name: github.com/joho/godotenv
   version: 23d116af351c84513e1946b527c88823e476be13
+- name: github.com/mattn/go-colorable
+  version: efa589957cd060542a26d2dd7832fd6a6c6c3ade
+- name: github.com/mattn/go-isatty
+  version: 6ca4dbf54d38eea1a992b3c722a76a5d1c4cb25c
 - name: github.com/urfave/cli
   version: cfb38830724cc34fedffe9a2a29fb54fa9169cd1
+- name: golang.org/x/sys
+  version: bff228c7b664c5fce602223a05fb708fd8654986
+  subpackages:
+  - unix
 - name: gopkg.in/yaml.v2
   version: 5420a8b6744d3b0345ab293f6fcba19c978f1183
 testImports: []
