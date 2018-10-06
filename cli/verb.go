@@ -52,7 +52,7 @@ func GenerateVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Command {
 			context := strings.Split(ctx.Command.FullName(), " ")
 			if context[0] == "global" {
 				for _, context := range c.Contexts {
-					if context.Name != "global" && context.Name != "recipe" {
+					if context.Name != "global" && context.Name != "group" {
 						composeFiles = append(composeFiles, fmt.Sprintf("%s.yaml", context.Name))
 					}
 				}
@@ -97,7 +97,7 @@ func verbCompletions(c *Config) func(ctx *cli.Context) {
 			var files []string
 			if context[0] == "global" {
 				for _, context := range c.Contexts {
-					if context.Name != "global" && context.Name != "recipe" {
+					if context.Name != "global" && context.Name != "group" {
 						files = append(files, path.Join(c.Home, fmt.Sprintf("%s.yaml", context.Name)))
 					}
 				}
