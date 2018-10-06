@@ -10,13 +10,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cathalgarvey/fmtless"
+	"fmt"
+
 	"github.com/fatih/color"
 )
 
 func ExecuteHealthCheck(object string) error {
 	ps := exec.Command("docker")
-	ps.Args = append(ps.Args, "ps", "-a", "-q", "--filter", fmt.Sprintf("name=%s", object))
+	ps.Args = append(ps.Args, "ps", "-a", "-q", "--filter", fmt.Sprintf("name=_%s_", object))
 	b, err := ps.CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("error getting container id: %s", err)
@@ -67,6 +68,9 @@ func ExecuteHealthCheck(object string) error {
 func ExecuteComposeCommand(home string, envVars []*string, composeFiles []string, command []string, objects []string) error {
 	cmd := exec.Command("docker-compose")
 	cmd.Dir = home
+
+	path, _ := os.LookupEnv("PATH")
+	cmd.Env = append(cmd.Env, fmt.Sprintf("PATH=%s", path))
 
 	for _, envVar := range envVars {
 		cmd.Env = append(cmd.Env, *envVar)
