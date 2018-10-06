@@ -52,7 +52,7 @@ func GenerateVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Command {
 			context := strings.Split(ctx.Command.FullName(), " ")
 			if context[0] == "global" {
 				for _, context := range c.Contexts {
-					if context.Name != "global" && context.Name != "group" {
+					if context.Name != "global" && context.Name != "group" && context.Name != "recipe" {
 						composeFiles = append(composeFiles, fmt.Sprintf("%s.yaml", context.Name))
 					}
 				}

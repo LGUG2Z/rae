@@ -31,12 +31,14 @@ func GenerateRecipeCommand(recipe *Recipe, c *Config, envVars []*string) cli.Com
 			}
 
 			for _, instructions := range recipe.Instructions {
-				if instructions.Healthcheck != nil {
-
-				}
-
 				if err := GroupVerbCommandAction(ctx, c, instructions.Group, c.Verbs[instructions.Verb], envVars); err != nil {
 					return err
+				}
+
+				for _, object := range instructions.Healthcheck {
+					if err := ExecuteHealthCheck(object); err != nil {
+						return err
+					}
 				}
 			}
 
