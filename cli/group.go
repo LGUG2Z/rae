@@ -39,25 +39,34 @@ func GenerateGroupVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Comm
 			fmt.Fprintf(ctx.App.Writer, strings.Join(completions, " "))
 		},
 		Action: func(ctx *cli.Context) error {
-			if ctx.NArg() < 1 || ctx.NArg() > 1 {
-				cli.ShowCommandHelpAndExit(ctx, ctx.Command.Name, 0)
-			}
-
-			group := c.Groups[ctx.Args().First()]
-
-			for _, instruction := range group.Members {
-				for context, objects := range instruction {
-					composeFile := fmt.Sprintf("%s.yaml", context)
-
-					for _, command := range verb.Commands {
-						if err := ExecuteDockerCommand(c.Home, envVars, []string{composeFile}, command, objects); err != nil {
-							return err
-						}
-					}
-				}
-			}
-
-			return nil
+			return GroupVerbCommandAction(ctx, c, ctx.Args().First(), verb, envVars)
 		},
 	}
+}
+
+func GroupVerbCommandAction(ctx *cli.Context, c *Config, g string, verb *Verb, envVars []*string) error {
+	context := strings.Split(ctx.Command.FullName(), " ")
+
+	if context[0] != "recipe" {
+		if ctx.NArg() < 1 || ctx.NArg() > 1 {
+			cli.ShowCommandHelpAndExit(ctx, ctx.Command.Name, 0)
+		}
+	}
+
+	group := c.Groups[g]
+
+	for _, instruction := range group.Members {
+		for context, objects := range instruction {
+			composeFile := fmt.Sprintf("%s.yaml", context)
+
+			for _, command := range verb.Commands {
+				if err := ExecuteDockerCommand(c.Home, envVars, []string{composeFile}, command, objects); err != nil {
+					return err
+				}
+			}
+		}
+	}
+
+	return nil
+
 }

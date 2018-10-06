@@ -33,6 +33,7 @@ type Recipe struct {
 	Name string
 
 	Usage        string          `yaml:"usage"`
+	Description  string          `yaml:"description"`
 	Instructions []*Instructions `yaml:"instructions"`
 }
 

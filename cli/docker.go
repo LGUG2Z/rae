@@ -9,6 +9,10 @@ import (
 	"strings"
 )
 
+func ExecuteHealthCheck() error {
+	return nil
+}
+
 func ExecuteDockerCommand(home string, envVars []*string, composeFiles []string, command []string, objects []string) error {
 	cmd := exec.Command("docker-compose")
 	cmd.Dir = home
