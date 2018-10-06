@@ -38,7 +38,7 @@ fmt:
 	goimports -w cli main.go
 
 release:
-	gorelease --rm-dist
+	goreleaser --rm-dist
 
 
 # Remove only what we've created
