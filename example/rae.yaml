@@ -12,15 +12,20 @@ contexts:
   global: # optional
     usage: "Manages all containers"
     category: "Meta"
+    env:
+      COMPOSE_FILE: api.yaml:app.yaml:infra.yaml
   api: # user-defined
     usage: "Manages API containers"
     category: "Backend"
+    env: { COMPOSE_FILE: api.yaml }
   app:
     usage: "Manages application containers"
     category: "Frontend"
+    env: { COMPOSE_FILE: app.yaml }
   infra:
     usage: "Manages infrastructure containers"
     category: "Infrastructure"
+    env: { COMPOSE_FILE: infra.yaml }
 
 verbs:
   recreate:
