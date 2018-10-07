@@ -79,7 +79,6 @@ func ExecuteComposeCommand(home string, envVars []*string, command []string, obj
 	var cleanedObjects []string
 	for _, object := range objects {
 		if object == "all" {
-			objects = []string{}
 			break
 		}
 

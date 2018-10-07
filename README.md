@@ -1,0 +1,2 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/LGUG2Z/rae)](https://goreportcard.com/report/github.com/LGUG2Z/rae)
+[![Maintainability](https://api.codeclimate.com/v1/badges/53e87b11b32bb33fb3b6/maintainability)](https://codeclimate.com/github/LGUG2Z/rae/maintainability)

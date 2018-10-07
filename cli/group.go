@@ -32,7 +32,7 @@ func GenerateGroupVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Comm
 		BashComplete: func(ctx *cli.Context) {
 			var completions []string
 
-			for name, _ := range c.Groups {
+			for name := range c.Groups {
 				completions = append(completions, name)
 			}
 

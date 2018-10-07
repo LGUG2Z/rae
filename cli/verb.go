@@ -100,6 +100,9 @@ func verbCompletions(c *Config) func(ctx *cli.Context) {
 		} else {
 			file := path.Join(c.Home, fmt.Sprintf("%s.yaml", context[0]))
 			completions, err = appendCompletions(file, completions)
+			if err != nil {
+				panic(err)
+			}
 		}
 
 		fmt.Fprintf(ctx.App.Writer, strings.Join(completions, " "))
@@ -117,7 +120,7 @@ func appendCompletions(file string, completions []string) ([]string, error) {
 		return nil, err
 	}
 
-	for service, _ := range composeFile["services"].(map[interface{}]interface{}) {
+	for service := range composeFile["services"].(map[interface{}]interface{}) {
 		completions = append(completions, service.(string))
 	}
 
