@@ -56,7 +56,12 @@ func GroupVerbCommandAction(ctx *cli.Context, c *Config, g string, verb *Verb, e
 	group := c.Groups[g]
 
 	for _, instruction := range group.Members {
-		for _, objects := range instruction {
+		for context, objects := range instruction {
+			for key, value := range c.Contexts[context].Env {
+				envVar := fmt.Sprintf("%s=%s", key, *value)
+				envVars = append(envVars, &envVar)
+			}
+
 			for _, command := range verb.Commands {
 				if err := ExecuteComposeCommand(c.Home, envVars, command, objects); err != nil {
 					return err
