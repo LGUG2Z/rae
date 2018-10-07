@@ -65,7 +65,7 @@ func ExecuteHealthCheck(object string) error {
 	return nil
 }
 
-func ExecuteComposeCommand(home string, envVars []*string, composeFiles []string, command []string, objects []string) error {
+func ExecuteComposeCommand(home string, envVars []*string, command []string, objects []string) error {
 	cmd := exec.Command("docker-compose")
 	cmd.Dir = home
 
@@ -74,11 +74,6 @@ func ExecuteComposeCommand(home string, envVars []*string, composeFiles []string
 
 	for _, envVar := range envVars {
 		cmd.Env = append(cmd.Env, *envVar)
-	}
-
-	for _, composeFile := range composeFiles {
-		cmd.Args = append(cmd.Args, "-f")
-		cmd.Args = append(cmd.Args, composeFile)
 	}
 
 	var cleanedObjects []string

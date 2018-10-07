@@ -4,9 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	"os"
-	"path"
-
 	"github.com/urfave/cli"
 )
 
@@ -59,16 +56,9 @@ func GroupVerbCommandAction(ctx *cli.Context, c *Config, g string, verb *Verb, e
 	group := c.Groups[g]
 
 	for _, instruction := range group.Members {
-		for context, objects := range instruction {
-			var composeFiles []string
-			composeFiles = append(composeFiles, fmt.Sprintf("%s.yaml", context))
-
-			if _, err := os.Stat(path.Join(c.Home, fmt.Sprintf("%s.override.yaml", context))); err == nil {
-				composeFiles = append(composeFiles, fmt.Sprintf("%s.override.yaml", context))
-			}
-
+		for _, objects := range instruction {
 			for _, command := range verb.Commands {
-				if err := ExecuteComposeCommand(c.Home, envVars, composeFiles, command, objects); err != nil {
+				if err := ExecuteComposeCommand(c.Home, envVars, command, objects); err != nil {
 					return err
 				}
 			}

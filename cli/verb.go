@@ -10,8 +10,6 @@ import (
 
 	"sort"
 
-	"os"
-
 	"github.com/urfave/cli"
 	"gopkg.in/yaml.v2"
 )
@@ -49,43 +47,25 @@ func GenerateVerbCommand(verb *Verb, c *Config, envVars []*string) cli.Command {
 				}
 			}
 
-			var composeFiles []string
-
 			context := strings.Split(ctx.Command.FullName(), " ")
-			if context[0] == "global" {
-				for _, context := range c.Contexts {
-					if context.Name != "global" && context.Name != "group" && context.Name != "recipe" {
-						composeFiles = append(composeFiles, fmt.Sprintf("%s.yaml", context.Name))
-						if _, err := os.Stat(path.Join(c.Home, fmt.Sprintf("%s.override.yaml", context.Name))); err == nil {
-							composeFiles = append(composeFiles, fmt.Sprintf("%s.override.yaml", context.Name))
+			for key, value := range c.Contexts[context[0]].Env {
+				envVar := fmt.Sprintf("%s=%s", key, *value)
+				envVars = append(envVars, &envVar)
+			}
+
+			if c.Contexts[context[0]].EnvFlags != nil {
+				for flag, envMap := range c.Contexts[context[0]].EnvFlags {
+					if ctx.GlobalBool(flag) {
+						for key, value := range *envMap {
+							envVar := fmt.Sprintf("%s=%s", key, *value)
+							envVars = append(envVars, &envVar)
 						}
 					}
-				}
-			} else {
-				for key, value := range c.Contexts[context[0]].Env {
-					envVar := fmt.Sprintf("%s=%s", key, *value)
-					envVars = append(envVars, &envVar)
-				}
-
-				if c.Contexts[context[0]].EnvFlags != nil {
-					for flag, envMap := range c.Contexts[context[0]].EnvFlags {
-						if ctx.GlobalBool(flag) {
-							for key, value := range *envMap {
-								envVar := fmt.Sprintf("%s=%s", key, *value)
-								envVars = append(envVars, &envVar)
-							}
-						}
-					}
-				}
-
-				composeFiles = append(composeFiles, fmt.Sprintf("%s.yaml", context[0]))
-				if _, err := os.Stat(path.Join(c.Home, fmt.Sprintf("%s.override.yaml", context[0]))); err == nil {
-					composeFiles = append(composeFiles, fmt.Sprintf("%s.override.yaml", context[0]))
 				}
 			}
 
 			for _, command := range verb.Commands {
-				if err := ExecuteComposeCommand(c.Home, envVars, composeFiles, command, ctx.Args()); err != nil {
+				if err := ExecuteComposeCommand(c.Home, envVars, command, ctx.Args()); err != nil {
 					return err
 				}
 			}
