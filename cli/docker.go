@@ -17,6 +17,12 @@ import (
 
 func ExecuteHealthCheck(object string) error {
 	ps := exec.Command("docker")
+
+	dockerHost, ok := os.LookupEnv("DOCKER_HOST")
+	if ok {
+		ps.Env = append(ps.Env, fmt.Sprintf("DOCKER_HOST=%s", dockerHost))
+	}
+
 	ps.Args = append(ps.Args, "ps", "-a", "-q", "--filter", fmt.Sprintf("name=_%s_", object))
 	b, err := ps.CombinedOutput()
 	if err != nil {
@@ -71,6 +77,11 @@ func ExecuteComposeCommand(home string, envVars []*string, command []string, obj
 
 	p, _ := os.LookupEnv("PATH")
 	cmd.Env = append(cmd.Env, fmt.Sprintf("PATH=%s", p))
+
+	dockerHost, ok := os.LookupEnv("DOCKER_HOST")
+	if ok {
+		cmd.Env = append(cmd.Env, fmt.Sprintf("DOCKER_HOST=%s", dockerHost))
+	}
 
 	for _, envVar := range envVars {
 		cmd.Env = append(cmd.Env, *envVar)
