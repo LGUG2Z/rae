@@ -54,6 +54,9 @@ func GroupVerbCommandAction(ctx *cli.Context, c *Config, g string, verb *Verb, e
 	}
 
 	group := c.Groups[g]
+	if group == nil {
+		return fmt.Errorf("%s is not defined as a group in rae.yaml or rae.override.yaml", g)
+	}
 
 	for _, instruction := range group.Members {
 		for context, objects := range instruction {
