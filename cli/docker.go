@@ -78,9 +78,8 @@ func ExecuteComposeCommand(home string, envVars []*string, command []string, obj
 	p, _ := os.LookupEnv("PATH")
 	cmd.Env = append(cmd.Env, fmt.Sprintf("PATH=%s", p))
 
-	dockerHost, ok := os.LookupEnv("DOCKER_HOST")
-	if ok {
-		cmd.Env = append(cmd.Env, fmt.Sprintf("DOCKER_HOST=%s", dockerHost))
+	for _, envVar := range os.Environ() {
+		cmd.Env = append(cmd.Env, envVar)
 	}
 
 	for _, envVar := range envVars {
